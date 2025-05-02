@@ -24,7 +24,14 @@ export function useMovies(query) {
             );
 
           const data = await res.json();
-          setMovies(data.Search);
+
+          if (data.Response === "False") {
+            setError(data.Error); // Example: "Movie not found!"
+            setMovies([]); // Clear previous movies
+          } else {
+            setMovies(data.Search);
+          }
+
           setIsLoading(false);
           setError("");
         } catch (err) {
